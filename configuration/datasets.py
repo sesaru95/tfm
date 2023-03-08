@@ -5,10 +5,12 @@ import pydicom
 import numpy as np
 from glob import glob
 import nibabel as nib
+import torch
+from torch.utils.data import Dataset
 
 
 def load_dicom_slice(path):  # funció per llegir una imatge DICOM donada una ruta i adaptar-ne el tamany
-    dicom = pydicom.read_file(path)
+    dicom = pydicom.dcmread(path)
     data = dicom.pixel_array
     data = cv2.resize(data, (image_sizes[0], image_sizes[1]), interpolation=cv2.INTER_LINEAR)
     return data
@@ -49,13 +51,38 @@ def load_sample(row, exists_seg_file=True):
         seg_data = nib.load(row.file_dir).get_fdata()
         shape = seg_data.shape
         seg_data = seg_data.transpose(1, 0, 2)[::-1, :, ::-1]  # correcció orientació (eix X reflectit i eix Z girat)
-        labels = np.zeros((7, shape[0], shape[1], shape[2]))
+        label = np.zeros((7, shape[0], shape[1], shape[2]))
 
         for c_id in range(7):
-            labels[c_id] = (seg_data == (c_id + 1))
-        labels = labels.astype(np.uint8) * 255
-        labels = R(labels).numpy()  # (7, 128, 128, 128)
+            label[c_id] = (seg_data == (c_id + 1))
+        label = label.astype(np.uint8) * 255
+        label = R(label).numpy()  # (7, 128, 128, 128)
 
-        return image, labels
+        return image, label
     else:
         return image
+
+
+class SegDataset(Dataset):
+    def __init__(self, df, mode, transform):
+        self.df = df.reset_index()
+        self.mode = mode
+        self.transform = transform
+
+    def __len__(self):
+        return self.df.shape[0]
+
+    def __getitem__(self, index):
+        self.row = self.df.iloc[index]
+
+        image, label = load_sample(self.row, exists_seg_file=True)
+
+        res = self.transform({'image': image, 'label': label})  # transformacions per 'ampliar' dataset
+        # [0..255] -> [0..1] format adequat per la funció imshow
+        image = res['image'] / 255.
+        label = res['label']
+        label = (label > 127).astype(np.float32)
+
+        image, label = torch.tensor(image).float(), torch.tensor(label).float()
+
+        return image, label
