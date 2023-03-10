@@ -4,12 +4,14 @@ from configuration.constants import transforms_train, transforms_valid
 
 import matplotlib.pyplot as plt
 
-seg_dataset = SegDataset(df_seg, 'train', transform=transforms_valid)
+# Mostra Dataset
+seg_dataset = SegDataset(df_seg, 'train', transform=transforms_train)
 
-fig, ax = plt.subplots(2, 3)
-for i in range(2):
-    for p in range(3):
-        idx = i * 3 + p  # la 4a imatge peta per problemes amb la memoria
+a, b = 2, 4
+fig, ax = plt.subplots(a, b)
+for i in range(a):
+    for p in range(b):
+        idx = i * b + p
         img, label = seg_dataset[idx]
 
         # agafem slice central
