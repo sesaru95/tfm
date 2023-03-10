@@ -28,10 +28,12 @@ def load_dicom_scan(
     images = []
     for filename in l_paths:
         images.append(load_dicom_slice(filename))
-    images = np.stack(images, -1)
+    images = np.stack(images, -1)  # ajuntem les imatges per l'eix z
 
+    # [0., 1.]
     images = images - np.min(images)
     images = images / (np.max(images) + 1e-4)  # així evitem divisions per 0
+    # [0, 255]
     images = (images * 255).astype(np.uint8)
 
     return images
