@@ -4,10 +4,12 @@ import monai.transforms as transforms
 data_dir = os.getcwd()  # ruta directori de treball actual
 
 n_folds = 5  # numero blocs en els que dividir el dataframe per entrenar/validar
-
+roi_size = (160, 160, 160)
+sw_batch_size = 4
 image_sizes = [128, 128, 128]
 R = transforms.Resize(image_sizes)
 
+## Transformacions
 # transformacions de les imatges per tenir un dataset "més gran" per entrenar el model
 transforms_train = transforms.Compose([
     transforms.RandFlipd(keys=["image", "label"], prob=0.5, spatial_axis=1), # inverteix l'ordre dels elements en un array
@@ -19,3 +21,13 @@ transforms_train = transforms.Compose([
 # per validar no necesitem ampliar el dataset amb aquestes transformacions
 transforms_valid = transforms.Compose([
 ])
+
+# tranformacions a format one hot per calcular la metrica
+post_pred = transforms.Compose([
+    transforms.AsDiscrete(argmax=True, to_onehot=7)
+])
+
+post_label = transforms.Compose([
+    transforms.AsDiscrete(to_onehot=7)
+])
+

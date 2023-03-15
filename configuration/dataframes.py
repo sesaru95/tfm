@@ -31,5 +31,5 @@ for fold, (train_idx, valid_idx) in enumerate(kf.split(df_seg)):
     df_seg.loc[valid_idx, 'fold'] = fold
 
 __all__ = [
-    df_seg
+    "df_seg"
 ]

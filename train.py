@@ -1,6 +1,6 @@
 import numpy as np
 from tqdm import tqdm
-from model.segmentation import dice_metric, device
+from model.segmentation import loss_function, device
 
 
 def train_func(model, loader_train, optimizer, scaler=None):
@@ -13,7 +13,7 @@ def train_func(model, loader_train, optimizer, scaler=None):
         labels = labels.to(device)
 
         outputs = model(images)
-        loss = dice_metric(outputs, labels)
+        loss = loss_function(outputs, labels)
 
         train_loss.append(loss.item())
         scaler.scale(loss).backward()

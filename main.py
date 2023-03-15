@@ -4,7 +4,7 @@ from configuration.constants import transforms_train, transforms_valid
 
 import matplotlib.pyplot as plt
 
-# Mostra Dataset
+# Visualització
 seg_dataset = SegDataset(df_seg, 'train', transform=transforms_train)
 
 a, b = 2, 4

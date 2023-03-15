@@ -1,8 +1,8 @@
 import torch
+import torch.nn as nn
 from monai.networks.nets import UNet
 from monai.networks.layers import Norm
 from monai.metrics import DiceMetric
-from monai.losses import DiceLoss
 
 # fem servir un model 3D del packet MONAI: UNet
 device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device('cpu')
@@ -15,8 +15,7 @@ model = UNet(
     num_res_units=2,
     norm=Norm.BATCH,
 ).to(device)
-loss_function = DiceLoss(to_onehot_y=True, softmax=True)
-optimizer = torch.optim.Adam(model.parameters(), 1e-4)
+loss_function = nn.BCEWithLogitsLoss()
 dice_metric = DiceMetric(include_background=False, reduction="mean")
 
 
