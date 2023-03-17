@@ -35,6 +35,7 @@ plt.show()
 
 # Entrenament
 for i in range(n_folds):
+    print('Running fold', i)
     seg_run(fold=i)
 
 
