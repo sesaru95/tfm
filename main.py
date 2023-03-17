@@ -1,9 +1,11 @@
 from configuration.dataframes import df_seg
 from configuration.datasets import SegDataset
-from configuration.constants import transforms_train, transforms_valid
+from configuration.constants import transforms_train, n_folds
+from run.segmentation import run as seg_run
 
 import matplotlib.pyplot as plt
 
+## Segmentació
 # Visualització
 seg_dataset = SegDataset(df_seg, 'train', transform=transforms_train)
 
@@ -30,4 +32,9 @@ for i in range(a):
         ax[i, p].set_title(seg_dataset.row['StudyInstanceUID'].split('.')[-1])
 
 plt.show()
+
+# Entrenament
+for i in range(n_folds):
+    seg_run(fold=i)
+
 

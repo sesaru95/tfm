@@ -1,11 +1,18 @@
 import os
 import monai.transforms as transforms
 
-data_dir = os.getcwd()  # ruta directori de treball actual
+data_dir = os.getcwd()
+log_dir = os.path.join(data_dir, '/logs')
+model_dir = os.path.join(data_dir, '/models')
 
-n_folds = 5  # numero blocs en els que dividir el dataframe per entrenar/validar
+n_folds = 5
 roi_size = (160, 160, 160)
 sw_batch_size = 4
+batch_size = 4
+num_workers = 4
+rate_learning = 3e-3
+n_epochs = 1000
+
 image_sizes = [128, 128, 128]
 R = transforms.Resize(image_sizes)
 
