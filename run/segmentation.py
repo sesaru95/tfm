@@ -9,17 +9,17 @@ from configuration.dataframes import df_seg
 from configuration.datasets import SegDataset
 from configuration.constants import transforms_train, transforms_valid, batch_size, num_workers, rate_learning, \
     n_epochs, log_dir, model_dir
-from model.segmentation import model
+from model.segmentation import model as monai_unet_model
 from train import train_func
 from valid import valid_func
 
 
 def run(fold):
     # Files
-    log_file = os.path.join(log_dir, f'logs_fold{fold}.txt')
-    model_file = os.path.join(model_dir, f'fold{fold}_best_metric_model.pth')
     os.makedirs(log_dir, exist_ok=True)
     os.makedirs(model_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, f'logs_fold{fold}.txt')
+    model_file = os.path.join(model_dir, f'fold{fold}_best_metric_model.pth')
 
     # DataFrames
     df_train = df_seg[df_seg['fold'] != fold].reset_index(drop=True)
@@ -35,6 +35,7 @@ def run(fold):
     loader_valid = torch.utils.data.DataLoader(ds_valid, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
     # Model
+    model = monai_unet_model
     optimizer = optim.AdamW(model.parameters(), lr=rate_learning)
     scaler = torch.cuda.amp.GradScaler()
     scheduler_cosine = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, n_epochs)

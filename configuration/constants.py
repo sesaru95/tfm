@@ -2,8 +2,8 @@ import os
 import monai.transforms as transforms
 
 data_dir = os.getcwd()
-log_dir = os.path.join(data_dir, '/logs')
-model_dir = os.path.join(data_dir, '/models')
+log_dir = os.path.join(data_dir, 'logs')
+model_dir = os.path.join(data_dir, 'models')
 
 n_folds = 5
 roi_size = (160, 160, 160)
