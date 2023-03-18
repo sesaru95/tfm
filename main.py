@@ -6,7 +6,7 @@ from run.segmentation import run as seg_run
 import matplotlib.pyplot as plt
 
 ## Segmentació
-# Visualització
+# Visualització # ToDO Problemes de RAM. Comprar més memória.
 seg_dataset = SegDataset(df_seg, 'train', transform=transforms_train)
 
 a, b = 2, 4

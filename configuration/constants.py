@@ -9,7 +9,7 @@ n_folds = 5
 roi_size = (160, 160, 160)
 sw_batch_size = 4
 batch_size = 4
-num_workers = 4
+num_workers = 0 # no accepta workers simultanis. #ToDO Mirar d'arreglar aixó.
 rate_learning = 3e-3
 n_epochs = 1000
 
