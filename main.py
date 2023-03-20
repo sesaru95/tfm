@@ -6,7 +6,7 @@ from run.segmentation import run as seg_run
 import matplotlib.pyplot as plt
 
 ## Segmentació
-# Visualització # ToDO Problemes de RAM. Comprar més memória.
+# Visualització # ToDO Problemes de RAM.
 seg_dataset = SegDataset(df_seg, 'train', transform=transforms_train)
 
 a, b = 2, 4
@@ -33,7 +33,7 @@ for i in range(a):
 
 plt.show()
 
-# Entrenament
+# Entrenament # ToDO Problemes treballant amb varios processos i assignacióo de memoria amb CUDA.
 for i in range(n_folds):
     print('Running fold', i)
     seg_run(fold=i)

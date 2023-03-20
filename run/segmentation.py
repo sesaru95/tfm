@@ -9,7 +9,7 @@ from configuration.dataframes import df_seg
 from configuration.datasets import SegDataset
 from configuration.constants import transforms_train, transforms_valid, batch_size, num_workers, rate_learning, \
     n_epochs, log_dir, model_dir
-from model.segmentation import model as monai_unet_model
+from model.segmentation import monai_unet_model, monai_desnet_model
 from train import train_func
 from valid import valid_func
 
