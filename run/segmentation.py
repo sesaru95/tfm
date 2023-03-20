@@ -28,7 +28,7 @@ def run(fold):
     # DataSets
     ds_train = SegDataset(df_train, 'train', transform=transforms_train)
     ds_valid = SegDataset(df_valid, 'valid', transform=transforms_valid)
-    print(f'dataset train size: {len(ds_train)}, dataset valid size: {len(ds_train)}')
+    print(f'dataset train size: {len(ds_train)}, dataset valid size: {len(ds_valid)}')
 
     # DataLoader
     loader_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size, shuffle=True, num_workers=num_workers)
