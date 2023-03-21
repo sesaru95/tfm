@@ -3,7 +3,6 @@ from configuration.datasets import SegDataset
 from configuration.constants import transforms_show, n_folds
 from run.segmentation import run as seg_run
 
-import torch
 import matplotlib.pyplot as plt
 
 ## Segmentació
