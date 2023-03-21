@@ -1,20 +1,24 @@
 from configuration.dataframes import df_seg
 from configuration.datasets import SegDataset
-from configuration.constants import transforms_train, n_folds
+from configuration.constants import transforms_show, n_folds
 from run.segmentation import run as seg_run
 
+import torch
 import matplotlib.pyplot as plt
 
 ## Segmentació
-# Visualització # ToDO Problemes de RAM.
-seg_dataset = SegDataset(df_seg, 'train', transform=transforms_train)
+# Visualització
+seg_dataset = SegDataset(df_seg, 'show', transform=transforms_show)
 
-a, b = 2, 4
-fig, ax = plt.subplots(a, b)
-for i in range(a):
-    for p in range(b):
-        idx = i * b + p
+n_img = 3
+for i in range(n_img):
+    fig, ax = plt.subplots(1, 3)
+    for j in range(3):
+        idx = i
         img, label = seg_dataset[idx]
+
+        img = img.transpose(j + 1, 3)
+        label = label.transpose(j + 1, 3)
 
         # agafem slice central
         img = img[:, :, :, 63]
@@ -27,11 +31,10 @@ for i in range(a):
         label = label[:3]
 
         img = img * 0.7 + label * 0.3  # per continuar en el rang [0, 1]
-        img = img.transpose(0, 1).transpose(1, 2).squeeze()  # per tenir (128, 128, 3, 1)
-        ax[i, p].imshow(img)
-        ax[i, p].set_title(seg_dataset.row['StudyInstanceUID'].split('.')[-1])
-
-plt.show()
+        img = img.transpose(0, 1).transpose(1, 2).squeeze()  # per tenir (128, 128, 3)
+        ax[j].imshow(img)
+        ax[j].set_title(seg_dataset.row['StudyInstanceUID'].split('.')[-1] + '_' + str(j+1))
+    plt.show()
 
 # Entrenament # ToDO Problemes treballant amb varios processos i assignacióo de memoria amb CUDA.
 for i in range(n_folds):

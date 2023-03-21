@@ -1,4 +1,4 @@
-from configuration.constants import image_sizes, R
+from configuration.constants import image_sizes, R, revert_list
 import os
 import cv2
 import pydicom
@@ -78,6 +78,9 @@ class SegDataset(Dataset):
         self.row = self.df.iloc[index]
 
         image, label = load_sample(self.row, exists_seg_file=True)
+
+        if self.row.StudyInstanceUID in revert_list:
+            label = label[:, :, :, ::-1]
 
         res = self.transform({'image': image, 'label': label})  # transformacions per 'ampliar' dataset
         # [0..255] -> [0..1] format adequat per la funció imshow
