@@ -33,6 +33,7 @@ for i in range(n_img):
         img = img * 0.7 + label * 0.3  # per continuar en el rang [0, 1]
         img = img.transpose(0, 1).transpose(1, 2).squeeze()  # per tenir (128, 128, 3)
         ax[j].imshow(img)
+        ax[j].set_axis_off()
         ax[j].set_title(seg_dataset.row['StudyInstanceUID'].split('.')[-1] + '_' + str(j+1))
     plt.show()
 
