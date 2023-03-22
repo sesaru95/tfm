@@ -4,12 +4,13 @@ import monai.transforms as transforms
 data_dir = os.getcwd()
 log_dir = os.path.join(data_dir, 'logs')
 model_dir = os.path.join(data_dir, 'models')
+images_dir = os.path.join(data_dir, 'images')
 
 n_folds = 5
 roi_size = (160, 160, 160)
 sw_batch_size = 4
 batch_size = 4
-num_workers = 0  # ToDO no accepta workers simultanis.
+num_workers = 4  # ToDO no accepta workers simultanis.
 rate_learning = 3e-3
 n_epochs = 1000
 

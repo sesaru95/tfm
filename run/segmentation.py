@@ -80,12 +80,14 @@ def run(fold):
     y = loss_values
     plt.xlabel("epoch")
     plt.plot(x, y)
+
     plt.subplot(1, 2, 2)
     plt.title("Val Mean Dice")
     x = [i + 1 for i in range(len(metric_values))]
     y = metric_values
     plt.xlabel("epoch")
     plt.plot(x, y)
+
     plt.show()
 
     # neteja
