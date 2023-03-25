@@ -26,9 +26,9 @@ def show(df, transform):
             label = label[:, :, :, 63]
 
             # agrupem els 7 labels en 3 pq coincideixi el tamany de img i label
-            label[0] = label[0] + label[3] + label[6]
-            label[1] = label[1] + label[4]
-            label[2] = label[2] + label[5]
+            label[0] = label[0] + label[3] + label[5] + label[6]
+            label[1] = label[1] + label[3] + label[4] + label[6]
+            label[2] = label[2] + label[4] + label[5] + label[6]
             label = label[:3]
 
             img = img * 0.7 + label * 0.3  # per continuar en el rang [0, 1]
