@@ -26,7 +26,6 @@ def valid_func(model, loader_valid):
             # metric
             outputs = sliding_window_inference(images, roi_size, sw_batch_size, model)
             outputs = [post_pred(i) for i in decollate_batch(outputs)]
-            labels = [post_label(i) for i in decollate_batch(labels)]
             dice_metric(y_pred=outputs, y=labels)
 
         # afegeix la mitja final resultant

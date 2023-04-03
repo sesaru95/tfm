@@ -44,6 +44,7 @@ def run(fold):
     metric_best = 0.
     epoch_metric_best = 0
     loss_values = []
+    val_values = []
     metric_values = []
     for epoch in range(1, n_epochs + 1):
         scheduler_cosine.step(epoch - 1)  # actualitza learning rate
@@ -54,6 +55,7 @@ def run(fold):
         valid_loss, metric = valid_func(model, loader_valid)
 
         loss_values.append(train_loss)
+        val_values.append(val_values)
         metric_values.append(metric)
 
         if metric > metric_best:
@@ -75,10 +77,18 @@ def run(fold):
     # Plot loss and metric
     plt.figure("train", (12, 6))
     plt.subplot(1, 2, 1)
-    plt.title("Epoch Average Loss")
+    plt.title("Average Train Loss")
     x = [i + 1 for i in range(len(loss_values))]
     y = loss_values
     plt.xlabel("epoch")
+    plt.xlabel("loss")
+    plt.plot(x, y)
+
+    plt.title("Average Validation Loss")
+    x = [i + 1 for i in range(len(val_values))]
+    y = loss_values
+    plt.xlabel("epoch")
+    plt.xlabel("loss")
     plt.plot(x, y)
 
     plt.subplot(1, 2, 2)
@@ -86,9 +96,10 @@ def run(fold):
     x = [i + 1 for i in range(len(metric_values))]
     y = metric_values
     plt.xlabel("epoch")
+    plt.xlabel("metric")
     plt.plot(x, y)
 
-    plt.show()
+    plt.show()  # ToDO Canviar per guardar en carpeta
 
     # neteja
     del model
